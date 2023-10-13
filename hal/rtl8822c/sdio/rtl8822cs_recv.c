@@ -533,8 +533,11 @@ s32 rtl8822cs_recv_hdl(_adapter *adapter)
 			a = d->padapters[i];
 			recvpriv = &a->recvpriv;
 			if ((rtw_if_up(a) == _TRUE)
-			    && skb_queue_len(&recvpriv->rx_napi_skb_queue))
+			    && skb_queue_len(&recvpriv->rx_napi_skb_queue)) {
+				local_bh_disable();
 				napi_schedule(&a->napi);
+				local_bh_enable();
+			}
 		}
 	}
 #endif /* CONFIG_RTW_NAPI_V2 */
