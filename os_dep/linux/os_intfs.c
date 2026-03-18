@@ -2106,6 +2106,9 @@ static void rtw_ethtool_get_drvinfo(struct net_device *dev, struct ethtool_drvin
 	padapter = (_adapter *)rtw_netdev_priv(dev);
 	if (padapter) {
 		hal_data = GET_HAL_DATA(padapter);
+		if (is_vir_adapter(padapter)) {
+			strscpy(info->driver, "rtw-vir", sizeof(info->driver));
+		}
 	}
 
 	if (hal_data) {
